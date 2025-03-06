@@ -46,7 +46,7 @@ function create() {
     const tileset = map.addTilesetImage('tileset', 'tiles');
     map.createLayer('Ground', tileset, 0, 0);
 
-    player = this.physics.add.sprite(100, 100, 'player');
+    player = this.physics.add.sprite(1000, 1000, 'player');
     player.setCollideWorldBounds(true);
 
     cursors = this.input.keyboard.createCursorKeys();
