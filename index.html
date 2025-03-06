@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>2D Pixel Art Game</title>
+<script src="https://cdn.jsdelivr.net/npm/phaser@3/dist/phaser.js"></script>
+<style>
+    body { margin: 0; }
+    canvas { display: block; }
+</style>
+</head>
+<body>
+<script>
+// Setting up a basic Phaser 3 game
+const config = {
+    type: Phaser.AUTO,
+    width: 800,
+    height: 600,
+    pixelArt: true,
+    physics: {
+        default: 'arcade',
+        arcade: {
+            gravity: { y: 0 },
+            debug: false
+        }
+    },
+    scene: {
+        preload: preload,
+        create: create,
+        update: update
+    }
+};
+
+const game = new Phaser.Game(config);
+let player, cursors;
+
+function preload() {
+    this.load.image('tiles', 'assets/tileset.png');
+    this.load.tilemapTiledJSON('map', 'assets/map.json');
+    this.load.spritesheet('player', 'assets/player.png', { frameWidth: 32, frameHeight: 32 });
+}
+
+function create() {
+    const map = this.make.tilemap({ key: 'map' });
+    const tileset = map.addTilesetImage('tileset', 'tiles');
+    map.createLayer('Ground', tileset, 0, 0);
+
+    player = this.physics.add.sprite(100, 100, 'player');
+    player.setCollideWorldBounds(true);
+
+    cursors = this.input.keyboard.createCursorKeys();
+}
+
+function update() {
+    player.setVelocity(0);
+    if (cursors.left.isDown) player.setVelocityX(-160);
+    else if (cursors.right.isDown) player.setVelocityX(160);
+    if (cursors.up.isDown) player.setVelocityY(-160);
+    else if (cursors.down.isDown) player.setVelocityY(160);
+}
+</script>
+</body>
+</html>
